@@ -7,15 +7,10 @@ function [grad] = gradient_U(ratings,U,M,ku)
     grad = zeros(f,length(U(1,:)));
     fileID = fopen('gradient_U.log','w');
     
-    for i = 1:n
+    for i = 1:n  
         tic
-        sumM = zeros(f,1);
-        for j = 1:m
-            sumM = sumM + ...
-            logical(ratings(i,j)) * ...
-            ((ratings(i,j) - prediction(U(:,i),M(:,j),a,b)) * M(:,j));
-        end
-        grad(:,i) = sumM - ku * U(:,i);
+        grad(:,i) = M * ((ratings(i,:) - U(:,i)' * M) .* ... 
+                              full(logical(ratings(i,:))))'- ku * U(:,i);
         fprintf(fileID,'%s %f - %f\n','Time took to compute user: ', ...
                                                                   i,toc);
     end
