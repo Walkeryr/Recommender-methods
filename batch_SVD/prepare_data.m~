@@ -1,4 +1,4 @@
-fid = fopen('../data/movielens/ml-100k/u1_base.dat');
+fid = fopen('/data/movielens/ml-100k/u1_base.dat');
 ratings_cell = textscan(fid, '%f %f %f %f', 'delimiter', '::', ... 
                            'CollectOutput', 1, 'MultipleDelimsAsOne', 1);
 fclose(fid);       
@@ -17,8 +17,8 @@ p = randperm(n);
 test_ratings(idx(p(1:n_test))) = ratings(idx(p(1:n_test)));
 ratings(idx(p(1:n_test))) = 0;
 
-save ../data/movielens/ml-1m/test_rat.mat test_ratings;
-save ../data/movielens/ml-1m/ratings.mat ratings;
+save /data/movielens/ml-1m/test_rat.mat test_ratings;
+save /data/movielens/ml-1m/ratings.mat ratings;
                        
 
 
