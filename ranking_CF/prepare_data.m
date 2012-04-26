@@ -1,3 +1,4 @@
+tic
 fid = fopen('../../data/movielens/ml-100k/u.data');
 ratings_cell = textscan(fid, '%f %f %f %f', 'delimiter', '::', ... 
                            'CollectOutput', 1, 'MultipleDelimsAsOne', 1);
@@ -13,19 +14,28 @@ allpairprefs = cell(1,n);    % cell array of matrices containing pairwise
                              % preferences of all users
 max_rating = max(raw_mat(:,3));
 min_rating = min(raw_mat(:,3));
-                          
+curr_max = max_rating;
+
 % computing pairwise preferences for each user                          
 for i = 1:n
     prefs = []; % pairwise preferences for one user
-    while (curr_max ~= min_rating)
-        curr_max = max(ratings(i,:)); 
+    while (curr_max > min_rating)
         a = find(ratings(i,:) == curr_max);
         b = find(ratings(i,:) < curr_max & ratings(i,:) ~= 0);
-        prefs = [prefs; allcomb(a,b)];
+        cartprod = allcomb(a,b); % cartesian product to build preferences
+        if (~isempty(cartprod))
+            prefs = [prefs; cartprod];
+        end
+        ratings(i,a) = 0;
+        curr_max = max(ratings(i,:)); 
     end
-    allpairprefs{i} = prefs; 
+    allpairprefs{i} = prefs;
+    curr_max = max_rating;
 end
-                               
+
+save ../../data/movielens/ml-100k/allpairprefs.mat allpairprefs;
+
+toc                               
                                
                                
                                
