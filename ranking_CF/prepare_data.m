@@ -34,7 +34,7 @@ for i = 1:n
 end
 
 save ../../data/movielens/ml-100k/allpairprefs.mat allpairprefs;
-
+save ../../data/movielens/ml-100k/ratings.mat ratings_backup;
 toc                               
                                
                                

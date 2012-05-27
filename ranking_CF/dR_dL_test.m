@@ -1,0 +1,1 @@
+[dR_dI_res] = dR_dI(U,I,mI,allpairprefs)
